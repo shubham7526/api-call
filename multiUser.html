@@ -1,0 +1,90 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./randomUser.css"/>
+</head>
+<body>
+    <div id="header">
+        <div><a href="./index.html" >See Only Single User</a></div>
+        <input type="number" id="number"/>
+        <button onclick="getRandomUser()" >Refresh</button> 
+    </div>  
+    <div class="body-multiuser">
+        
+        <div id="container">
+            
+                <!-- <div id="parent">
+                    <div><a href="./index.html" >See Only Single User</a></div>
+                    <img src="" id="image" border=1px solid black style="align-items: center;"/>
+                    <div id="detail"></div>
+                    <button onclick="getRandomUser()" >Refresh</button>
+                </div> -->
+
+                
+        </div>
+    </div>    
+
+
+</body>
+
+    <script> 
+
+        // const numberOfUser = [0, 1, 2, 3, 4,]
+        // let  parentDiv = numberOfUser.map(j =>{
+            
+        //     return `<div id="parent">
+                        
+        //                 <img src="" id="img${j}" border=1px solid black style="align-items: center;"/>
+        //                 <div id="detail">
+        //                     <div id="name${j}"></div>
+        //                     <div id="email${j}"></div>
+        //                 </div>    
+        //                 <button onclick="getRandomUser()" >Refresh</button>
+        //             </div>`
+        //         })
+        // parentDiv = parentDiv.join(" ");
+        // document.querySelector("#container").innerHTML = parentDiv;
+        // console.log(parentDiv);
+            
+
+
+    //    const arr= ["name", "email"];
+    //    let details = arr.map(i =>{
+    //        return `<div id="${i}"></div>`
+    //    })
+    //    details= details.join(" ");
+    //    document.querySelector("#detail").innerHTML = details;
+       
+           
+       const getRandomUser = async() => {
+            const number = document.querySelector("#number").value;
+            const result = await fetch(`https://randomuser.me/api/?results=${number}`);
+            const {results, info} = await result.json();
+            
+            let markup='';
+            results.map(user=> {
+                const {name:{title, first, last}, picture:{large}, email} = user;
+                const name =  `${title} ${first} ${last}`;
+                markup += `<div id="parent">
+                    
+                                <img src="${large}" id="img" border=1px solid black style="align-items: center;"/>
+                                <div id="detail">
+                                    <div id="name"><b>Name:</b>${name}</div>
+                                    <div id="email"><b>Email:</b>${email}</div>
+                                </div>    
+                     
+                            </div>`
+
+            }) 
+            
+            document.querySelector(`#container`).innerHTML = markup;
+
+        }        
+
+       getRandomUser();
+
+    </script>
+</html>

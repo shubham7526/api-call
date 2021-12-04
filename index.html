@@ -1,0 +1,49 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./randomUser.css"/>
+</head>
+<body>
+    
+    <div class="body">
+        
+
+        <div id="parent">
+            <div><a href="./multiUser.html" >See Multiple User</a></div>
+            <img src="" id="image" border=1px solid black style="align-items: center;"/>
+            <div id="detail"></div>
+            <button onclick="getRandomUser()" >Refresh</button>
+        </div>
+    </div>    
+
+
+</body>
+
+    <script> 
+        
+       const arr= ["name", "email"];
+       let details = arr.map(i =>{
+           return `<div id="${i}"></div>`
+       })
+       details= details.join(" ");
+       document.querySelector("#detail").innerHTML = details;
+           
+       const getRandomUser = async() => {
+
+            const result = await fetch('https://randomuser.me/api/');
+            const {results, info} = await result.json();
+            const {name:{title, first, last}, picture:{large}, email} = results[0];
+            
+            document.querySelector("img").src = large;
+            document.querySelector("#name").innerHTML = `<b>Name:</b>  ${title} ${first} ${last}`;
+            document.querySelector("#email").innerHTML = `<b>Email:</b>  ${email}`;
+ 
+        }
+
+        getRandomUser();
+
+    </script>
+</html>
